@@ -1,0 +1,80 @@
+class Main {
+    function void main() {
+        // Declares Variables
+        var Array arr1, arr2;
+        var int sum1, sum2, avg1, avg2, i;
+        var boolean eq;
+
+        // Initializes Variables
+        let i = 0;
+        let arr1 = Array.new(10);
+        let arr2 = Array.new(10);
+        while (i < 10) {
+            let arr1[i] = i;
+            let arr2[i] = -arr1[i];
+            let i = i + 1;
+        }
+        let sum1 = ArrayFunction.sum(arr1, 10);
+        let sum2 = ArrayFunction.sum(arr2, 10);
+        let avg1 = ArrayFunction.average(arr1, 10);
+        let avg2 = ArrayFunction.average(arr2, 10);
+        let eq = ArrayFunction.equals(arr1, arr2, 10, 10);
+
+        // Print Info of Array 1
+        do Output.printString("Array 1: ");
+        do ArrayFunction.prettyPrint(arr1,10);
+        do Output.println();
+        do Output.printString("Sum of Array 1: ");
+        do Output.printInt(sum1);
+        do Output.println();
+        do Output.printString("Average of Array 1: ");
+        do Output.printInt(avg1);
+        do Output.println();
+
+        // Print Info of Array 2
+        do Output.printString("Array 2: ");
+        do ArrayFunction.prettyPrint(arr2,10);
+        do Output.println();
+        do Output.printString("Sum of Array 2: ");
+        do Output.printInt(sum2);
+        do Output.println();
+        do Output.printString("Average of Array 2: ");
+        do Output.printInt(avg2);
+        do Output.println();
+
+        // Check Equality
+        do Output.printString("Equal: ");
+        if (eq = true) {
+            do Output.printString("True");
+        } else {
+            do Output.printString("False");
+        }
+        do Output.println();
+
+
+        // Print Info of New Array 2
+        let arr2 = ArrayFunction.copy(arr1, 10);
+        let sum2 = ArrayFunction.sum(arr2, 10);
+        let avg2 = ArrayFunction.average(arr2, 10);
+        let eq = ArrayFunction.equals(arr1, arr2, 10, 10);
+        do Output.printString("Array 2: ");
+        do ArrayFunction.prettyPrint(arr2,10);
+        do Output.println();
+        do Output.printString("Sum of Array 2: ");
+        do Output.printInt(sum2);
+        do Output.println();
+        do Output.printString("Average of Array 2: ");
+        do Output.printInt(avg2);
+        do Output.println();
+
+        // Check Equality
+        do Output.printString("Equal: ");
+        if (eq = true) {
+            do Output.printString("True");
+        } else {
+            do Output.printString("False");
+        }
+
+        return;
+    }
+}

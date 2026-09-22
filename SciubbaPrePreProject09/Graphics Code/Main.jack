@@ -1,0 +1,30 @@
+class Main {
+    function void main() {
+        // Declares Variables
+        var int key;
+        var Moth moth;
+        var Light light;
+
+        // Initializes Variables
+        let moth = Moth.new(492,236);
+        let light = Light.new(20,20);
+
+        // Create starting moth and light
+        do moth.draw();
+        do light.draw();
+
+        // Keep on moving the the moth closer to the light and erasing & drawing till escape
+        while (~(key=140)) {
+            let key = Keyboard.keyPressed();
+            do moth.erase();
+            do light.draw();
+            do moth.move(light);
+            do moth.draw();
+        }
+
+        // De allocate the memory taken up by the moth and the light
+        do moth.dispose();
+        do light.dispose();
+        return;
+    }
+}

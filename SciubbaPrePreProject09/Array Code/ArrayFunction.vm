@@ -1,0 +1,164 @@
+function ArrayFunction.sum 2
+    push constant 0
+    pop local 0
+    push constant 0
+    pop local 1
+label ArrayFunction_0
+    push local 1
+    push argument 1
+    lt
+    not
+    if-goto ArrayFunction_1
+    push local 0
+    push local 1
+    push argument 0
+    add
+    pop pointer 1
+    push that 0
+    add
+    pop local 0
+    push local 1
+    push constant 1
+    add
+    pop local 1
+    goto ArrayFunction_0
+label ArrayFunction_1
+    push local 0
+    return
+function ArrayFunction.average 0
+    push argument 0
+    push argument 1
+    call ArrayFunction.sum 2
+    push argument 1
+    call Math.divide 2
+    return
+function ArrayFunction.copy 2
+    push argument 1
+    call Array.new 1
+    pop local 0
+    push constant 0
+    pop local 1
+label ArrayFunction_2
+    push local 1
+    push argument 1
+    lt
+    not
+    if-goto ArrayFunction_3
+    push local 1
+    push local 0
+    add
+    push local 1
+    push argument 0
+    add
+    pop pointer 1
+    push that 0
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push local 1
+    push constant 1
+    add
+    pop local 1
+    goto ArrayFunction_2
+label ArrayFunction_3
+    push local 0
+    return
+function ArrayFunction.equals 1
+    push constant 0
+    pop local 0
+    push argument 2
+    push argument 3
+    eq
+    not
+    not
+    if-goto ArrayFunction_5
+    push constant 0
+    return
+    goto ArrayFunction_4
+label ArrayFunction_5
+label ArrayFunction_4
+label ArrayFunction_6
+    push local 0
+    push argument 2
+    lt
+    not
+    if-goto ArrayFunction_7
+    push local 0
+    push argument 0
+    add
+    pop pointer 1
+    push that 0
+    push local 0
+    push argument 1
+    add
+    pop pointer 1
+    push that 0
+    eq
+    not
+    not
+    if-goto ArrayFunction_9
+    push constant 0
+    return
+    goto ArrayFunction_8
+label ArrayFunction_9
+label ArrayFunction_8
+    push local 0
+    push constant 1
+    add
+    pop local 0
+    goto ArrayFunction_6
+label ArrayFunction_7
+    push constant 1
+    neg
+    return
+function ArrayFunction.prettyPrint 1
+    push constant 0
+    pop local 0
+    push constant 1
+    call String.new 1
+    push constant 124
+    call String.appendChar 2
+    call Output.printString 1
+    pop temp 0
+label ArrayFunction_10
+    push local 0
+    push argument 1
+    lt
+    not
+    if-goto ArrayFunction_11
+    push local 0
+    push argument 0
+    add
+    pop pointer 1
+    push that 0
+    call Output.printInt 1
+    pop temp 0
+    push local 0
+    push constant 1
+    add
+    pop local 0
+    push local 0
+    push argument 1
+    lt
+    not
+    if-goto ArrayFunction_13
+    push constant 1
+    call String.new 1
+    push constant 44
+    call String.appendChar 2
+    call Output.printString 1
+    pop temp 0
+    goto ArrayFunction_12
+label ArrayFunction_13
+label ArrayFunction_12
+    goto ArrayFunction_10
+label ArrayFunction_11
+    push constant 1
+    call String.new 1
+    push constant 124
+    call String.appendChar 2
+    call Output.printString 1
+    pop temp 0
+    push constant 0
+    return

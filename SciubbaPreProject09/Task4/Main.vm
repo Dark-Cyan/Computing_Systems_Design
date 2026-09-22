@@ -1,0 +1,84 @@
+function Main.main 4
+    push constant 25
+    pop local 2
+    push constant 100
+    pop local 0
+    push constant 100
+    pop local 1
+label Main_0
+    push local 3
+    push constant 140
+    eq
+    not
+    not
+    if-goto Main_1
+    call Keyboard.keyPressed 0
+    pop local 3
+    push local 3
+    push constant 0
+    eq
+    not
+    not
+    if-goto Main_3
+    push local 3
+    push constant 130
+    eq
+    not
+    if-goto Main_5
+    push local 0
+    push constant 1
+    sub
+    pop local 0
+    goto Main_4
+label Main_5
+label Main_4
+    push local 3
+    push constant 131
+    eq
+    not
+    if-goto Main_7
+    push local 1
+    push constant 1
+    sub
+    pop local 1
+    goto Main_6
+label Main_7
+label Main_6
+    push local 3
+    push constant 132
+    eq
+    not
+    if-goto Main_9
+    push local 0
+    push constant 1
+    add
+    pop local 0
+    goto Main_8
+label Main_9
+label Main_8
+    push local 3
+    push constant 133
+    eq
+    not
+    if-goto Main_11
+    push local 1
+    push constant 1
+    add
+    pop local 1
+    goto Main_10
+label Main_11
+label Main_10
+    call Screen.clearScreen 0
+    pop temp 0
+    goto Main_2
+label Main_3
+label Main_2
+    push local 0
+    push local 1
+    push local 2
+    call Screen.drawCircle 3
+    pop temp 0
+    goto Main_0
+label Main_1
+    push constant 0
+    return

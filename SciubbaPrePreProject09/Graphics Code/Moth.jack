@@ -1,0 +1,46 @@
+class Moth {
+    field int x;
+    field int y;
+
+    /** Creates a new Moth object. */
+    constructor Moth new(int startX, int startY) {
+        let x = startX;
+        let y = startY;
+        return this;
+    }
+
+    /** Dispose of the Moth . */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Draws the moth on the screen. */
+    method void draw() {
+        do Screen.setColor(true);
+        do Screen.drawCircle(x,y,2);
+        do Screen.drawCircle(x+4,y-5,5);
+        do Screen.drawCircle(x-4,y-5,5);
+        do Screen.drawCircle(x+3,y+4,3);
+        do Screen.drawCircle(x-3,y+4,3);
+        return;
+    }
+
+    /** Erases the moth from the screen. */
+    method void erase() {
+        do Screen.setColor(false);
+        do Screen.drawCircle(x,y,2);
+        do Screen.drawCircle(x+4,y-5,5);
+        do Screen.drawCircle(x-4,y-5,5);
+        do Screen.drawCircle(x+3,y+4,3);
+        do Screen.drawCircle(x-3,y+4,3);
+        return;
+    }
+
+    /** Moves the moth halfway from position to the light’s position. */
+    method void move(Light l) {
+        let x = (l.getX() - x)/2 + x;
+        let y = (l.getY() - y)/2 + y;
+        return;
+    }
+}

@@ -1,0 +1,231 @@
+function Cursor.new 0
+    push constant 5
+    call Memory.alloc 1
+    pop pointer 0
+    push constant 0
+    pop this 0
+    push constant 0
+    pop this 1
+    push constant 1
+    neg
+    pop this 2
+    push constant 1
+    neg
+    pop this 3
+    push constant 0
+    pop this 4
+    push pointer 0
+    return
+function Cursor.dispose 0
+    push argument 0
+    pop pointer 0
+    push pointer 0
+    call Memory.deAlloc 1
+    pop temp 0
+    push constant 0
+    return
+function Cursor.getX 0
+    push argument 0
+    pop pointer 0
+    push this 0
+    return
+function Cursor.getY 0
+    push argument 0
+    pop pointer 0
+    push this 1
+    return
+function Cursor.move 0
+    push argument 0
+    pop pointer 0
+    push argument 1
+    push constant 130
+    eq
+    not
+    if-goto Cursor_1
+    push this 0
+    push constant 0
+    eq
+    not
+    not
+    if-goto Cursor_3
+    push this 0
+    push constant 1
+    sub
+    pop this 0
+    goto Cursor_2
+label Cursor_3
+label Cursor_2
+    goto Cursor_0
+label Cursor_1
+label Cursor_0
+    push argument 1
+    push constant 131
+    eq
+    not
+    if-goto Cursor_5
+    push this 1
+    push constant 0
+    eq
+    not
+    not
+    if-goto Cursor_7
+    push this 1
+    push constant 1
+    sub
+    pop this 1
+    goto Cursor_6
+label Cursor_7
+label Cursor_6
+    goto Cursor_4
+label Cursor_5
+label Cursor_4
+    push argument 1
+    push constant 132
+    eq
+    not
+    if-goto Cursor_9
+    push this 0
+    push constant 64
+    eq
+    not
+    not
+    if-goto Cursor_11
+    push this 0
+    push constant 1
+    add
+    pop this 0
+    goto Cursor_10
+label Cursor_11
+label Cursor_10
+    goto Cursor_8
+label Cursor_9
+label Cursor_8
+    push argument 1
+    push constant 133
+    eq
+    not
+    if-goto Cursor_13
+    push this 1
+    push constant 32
+    eq
+    not
+    not
+    if-goto Cursor_15
+    push this 1
+    push constant 1
+    add
+    pop this 1
+    goto Cursor_14
+label Cursor_15
+label Cursor_14
+    goto Cursor_12
+label Cursor_13
+label Cursor_12
+    push constant 0
+    return
+function Cursor.toggleDraw 0
+    push argument 0
+    pop pointer 0
+    push argument 1
+    push constant 98
+    eq
+    not
+    if-goto Cursor_17
+    push constant 1
+    neg
+    pop this 3
+    goto Cursor_16
+label Cursor_17
+label Cursor_16
+    push argument 1
+    push constant 101
+    eq
+    not
+    if-goto Cursor_19
+    push constant 0
+    pop this 3
+    goto Cursor_18
+label Cursor_19
+label Cursor_18
+    push constant 0
+    return
+function Cursor.select 0
+    push argument 0
+    pop pointer 0
+    push argument 1
+    push constant 32
+    eq
+    not
+    if-goto Cursor_21
+    push argument 2
+    push this 0
+    push this 1
+    push this 3
+    call Board.set 4
+    pop temp 0
+    goto Cursor_20
+label Cursor_21
+label Cursor_20
+    push constant 0
+    return
+function Cursor.update 0
+    push argument 0
+    pop pointer 0
+    push pointer 0
+    push argument 1
+    call Cursor.move 2
+    pop temp 0
+    push pointer 0
+    push argument 1
+    call Cursor.toggleDraw 2
+    pop temp 0
+    push pointer 0
+    push argument 1
+    push argument 2
+    call Cursor.select 3
+    pop temp 0
+    push constant 0
+    return
+function Cursor.print 0
+    push argument 0
+    pop pointer 0
+    push this 4
+    push constant 2
+    eq
+    not
+    if-goto Cursor_23
+    push this 2
+    not
+    pop this 2
+    push constant 0
+    pop this 4
+    goto Cursor_22
+label Cursor_23
+label Cursor_22
+    push this 2
+    call Screen.setColor 1
+    pop temp 0
+    push this 0
+    push constant 8
+    call Math.multiply 2
+    push this 1
+    push constant 8
+    call Math.multiply 2
+    push this 0
+    push constant 8
+    call Math.multiply 2
+    push constant 8
+    add
+    push this 1
+    push constant 8
+    call Math.multiply 2
+    push constant 8
+    add
+    call Screen.drawRectangle 4
+    pop temp 0
+    push this 4
+    push constant 1
+    add
+    pop this 4
+    push constant 0
+    return

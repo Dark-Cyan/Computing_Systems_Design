@@ -1,0 +1,41 @@
+class Light {
+    field int x;
+    field int y;
+
+    /** Creates a new Light object. */
+    constructor Light new(int startX, int startY) {
+        let x = startX;
+        let y = startY;
+        return this;
+    }
+
+    /** Dispose of the Light . */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Draws the Light on the screen. */
+    method void draw() {
+        do Screen.setColor(true);
+        do Screen.drawCircle(x,y,20);
+        return;
+    }
+
+    /** Erases the Light from the screen. */
+    method void erase() {
+        do Screen.setColor(false);
+        do Screen.drawCircle(x,y,20);
+        return;
+    }
+    
+    /** Returns the x position of the light. */
+    method int getX() {
+        return x;
+    }
+
+    /** Returns the x position of the light. */
+    method int getY() {
+        return y;
+    }
+}

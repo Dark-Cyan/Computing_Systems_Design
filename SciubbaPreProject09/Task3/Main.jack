@@ -1,0 +1,79 @@
+class Main {
+    function void main() {
+        // Declares Variables
+        var Array nums;
+        var int i, sum;
+
+        // Initializes Variables
+        let nums = Array.new(10);
+        let i = 0;
+
+        // Loops to read user inputted variables 10 times
+        while (i < 10) {
+            let nums[i] = Keyboard.readInt("Enter Number: ");
+            let i = i + 1;
+        }
+
+        // Calls AlternatingSums Function and prints returned value
+        let sum = Main.alternatingSums(nums, 10);
+        do Output.printInt(sum);
+        do Output.println();
+
+        // Calls centeredAverage Function and prints returned value
+        let sum = Main.centeredAverage(nums, 10);
+        do Output.printInt(sum);
+        return;
+    }
+
+    function int alternatingSums(Array nums, int length) {
+        // Declares Variables
+        var int i, sum;
+        var int mult;
+
+        // Initializes Variables
+        let sum = nums[0];
+        let i = 1;
+        let mult = 1;
+
+        // Loops for given length switching between adding and subtracting
+        while (i < length) {
+            let sum = sum + (nums[i] * mult);
+            let i = i + 1;
+            let mult = mult * -1;
+        }
+
+        // Returns final sum
+        return sum;
+    }
+
+    function int centeredAverage(Array nums, int length) {
+        // Declares Variables
+        var int smallest, largest;
+        var int i, sum;
+
+        // Initializes Variables
+        let i = 0;
+        let sum = 0;
+        let smallest = nums[0];
+        let largest = nums[0];
+
+        // Loops for given length adding to sum while finding largest and smallest nums
+        while (i < length) {
+            let sum = sum + nums[i];
+            if (nums[i] > largest){
+                let largest = nums[i];
+            }
+            if (nums[i] < smallest){
+                let smallest = nums[i];
+            }
+            let i = i + 1;
+        }
+
+        // Calculates the average
+        let sum = sum - largest - smallest;
+        let sum = sum / (length - 2);
+
+        //Returns final average
+        return sum;
+    }
+}

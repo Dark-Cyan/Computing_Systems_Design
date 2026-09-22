@@ -1,0 +1,195 @@
+class Board {
+    field Array cellsX;
+    field Array neighborsX;
+
+    // Creates a new Board Object
+    constructor Board new() {
+
+        // Declares Variables
+        var Array cellsY, neighborsY;
+        var int x,y;
+
+        // Initializes 2D Array
+        let cellsX = Array.new(64);
+        let neighborsX = Array.new(64);
+        let x = 0;
+        while (x < 64) {
+            let y = 0;
+            let cellsY = Array.new(32);
+            let neighborsY = Array.new(32);
+            let cellsX[x] = cellsY;
+            let neighborsX[x] = neighborsY;
+            while (y < 32) {
+                do set(x,y,false);
+                do setNeighbors(x,y,0);
+                let y = y + 1;
+            }
+            let x = x + 1;
+        }
+
+        return this;
+    }
+
+    // Disposes of this Board from Memory
+    method void dispose() {
+        var Array cellsY;
+        var int x;
+        let x = 0;
+        while(x < 64) {
+            let cellsY = cellsX[x];
+            do Memory.deAlloc(cellsY);
+            let x = x + 1;
+        }
+        do Memory.deAlloc(cellsX);
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    // Sets the Cells 2D Array to All False
+    method void clear() {
+        var int x,y;
+        let x = 0;
+        while (x < 64) {
+            let y = 0;
+            while (y < 32) {
+                do set(x,y,false);
+                let y = y + 1;
+            }
+            let x = x + 1;
+        }
+        return;
+    }
+
+    // Sets the Neighbors 2D Array to All 0
+    method void clearNeighbors() {
+        var int x,y;
+        let x = 0;
+        while (x < 64) {
+            let y = 0;
+            while (y < 32) {
+                do setNeighbors(x,y,0);
+                let y = y + 1;
+            }
+            let x = x + 1;
+        }
+        return;
+    }
+
+    // Prints the Cells 2D Array with Alive as Black and White as Dead
+    // If hasMouse is True, will Print the Mouse as well
+    method void printBoard(Cursor mouse, boolean hasMouse) {
+        var int x,y;
+        let x = 0;
+        while (x < 64) {
+            let y = 0;
+            while (y < 32) {
+                if ((mouse.getX() = x) & (mouse.getY() = y) & hasMouse) {
+                    do mouse.print();
+                } else {
+                    if (get(x,y)) {
+                        do Screen.setColor(true);
+                    } else {
+                        do Screen.setColor(false);
+                    }
+                    do Screen.drawRectangle(x*8, y*8, x*8+8, y*8+8);
+                }
+                let y = y + 1;
+            }
+            let x = x + 1;
+        }
+        return;
+    }
+
+    // Returns the boolean for aliveness for cell at (x,y)
+    method boolean get(int x, int y) {
+        var Array cellsY; 
+        let cellsY = cellsX[x];
+        return cellsY[y];
+    }
+
+    // Returns the int of Neighbors for cell at (x,y)
+    method int getNeighbors(int x, int y) {
+        var Array neighborsY;
+        let neighborsY = neighborsX[x];
+        return neighborsY[y];
+    }
+
+    // Sets the aliveness for cell at (x,y)
+    method void set(int x, int y, boolean state) {
+        var Array cellsY;
+        let cellsY = cellsX[x];
+        let cellsY[y] = state;
+        return;
+    }
+
+    // Sets the neighbors for cell at (x,y)
+    method void setNeighbors(int x, int y, int num) {
+        var Array neighborsY;
+        let neighborsY = neighborsX[x];
+        let neighborsY[y] = num;
+        return;
+    }
+
+    // Increments the neighbors for cell at (x,y) by 1
+    method void increment(int x, int y) {
+        var Array neighborsY;
+        let neighborsY = neighborsX[x];
+        let neighborsY[y] = getNeighbors(x,y) + 1;
+        return;
+    }
+
+    // Updates the Neighbors 2D Array based on the Cells 2D Array
+    method void calcNeighbors() {
+
+        // Intializes Variables
+        var Array neighborsY, tempNeighborsY;
+        var int x,y;
+        var int up, left, down, right;
+        var int i;
+
+        // Clears the Neighbors 2D Array
+        do clearNeighbors();
+
+        // Iterates Through Every x and y of the Cells 2D Array
+        let x = 0;
+        while (x < 64) {
+            let y = 0;
+            while (y < 32) {
+
+                // If Cell at (x,y) is Alive, Increment Surrounding Neighbors by 1
+                if (get(x,y)) {
+                    let up = y-1;
+                    if (up < 0) {
+                        let up = 0;
+                    }
+                    let left = x-1;
+                    if (left < 0) {
+                        let left = 0;
+                    }
+                    let right = x+1;
+                    if (right > 64) {
+                        let right = 64;
+                    }
+                    let down = y+1;
+                    if (down > 32) {
+                        let down = 32;
+                    }
+                    while (~(left > right)) {
+                        let i = up;
+                        while (~(i > down)) {
+                            do increment(left,i);
+                            let i = i + 1;
+                        }
+                        let left = left + 1;
+                    }
+                    do setNeighbors(x,y,getNeighbors(x,y)-1);
+                }
+
+                let y = y + 1;
+            }
+            let x = x + 1;
+        }
+
+        return;
+    }    
+}

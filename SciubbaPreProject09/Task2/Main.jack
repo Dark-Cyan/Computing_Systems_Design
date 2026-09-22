@@ -1,0 +1,44 @@
+class Main {
+    function void main() {
+        // Declares Variables
+        var Array nums;
+        var int i, sum;
+
+        // Initializes Variables
+        let nums = Array.new(10);
+        let i = 0;
+
+        // Loops to read user inputted variables 10 times
+        while (i < 10) {
+            let nums[i] = Keyboard.readInt("Enter Number: ");
+            let i = i + 1;
+        }
+
+        // Calls AlternatingSums Function and prints returned value
+        let sum = Main.alternatingSums(nums, 10);
+        do Output.printInt(sum);
+        return;
+    }
+
+    function int alternatingSums(Array nums, int length) {
+        // Declares Variables
+        var int sum;
+        var int i;
+        var int mult;
+
+        // Initializes Variables
+        let sum = nums[0];
+        let i = 1;
+        let mult = 1;
+
+        // Loops for given length switching between adding and subtracting
+        while (i < length) {
+            let sum = sum + (nums[i] * mult);
+            let i = i + 1;
+            let mult = mult * -1;
+        }
+
+        // Returns final sum
+        return sum;
+    }
+}

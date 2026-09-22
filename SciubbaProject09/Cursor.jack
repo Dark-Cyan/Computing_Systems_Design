@@ -1,0 +1,122 @@
+class Cursor {
+    field int x;
+    field int y;
+    field boolean color;
+    field boolean draw;
+    field int count;
+
+    // Creates a new Cursor Object
+    constructor Cursor new() {
+
+        // Initializes Variables
+        let x = 0;
+        let y = 0;
+        let color = true;
+        let draw = true;
+        let count = 0;
+
+        return this;
+    }
+
+    // Disposes of this Cursor from Memory
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    // Returns x
+    method int getX() {
+        return x;
+    }
+
+    // Returns y
+    method int getY() {
+        return y;
+    }
+
+    // Chages x and y Based on Arrow Key Input
+    method void move(int key) {
+
+        // Left Arrow Key subtracts from x
+        if (key = 130) {
+            if (~(x = 0)) {
+                let x = x - 1; 
+            }
+        } 
+
+        // Up Arrow Key subtracts from y
+        if (key = 131) {
+            if (~(y = 0)) {
+                let y = y - 1; 
+            }
+        } 
+
+        // Right Arrow Key adds to x
+        if (key = 132) {
+            if (~(x = 64)) {
+                let x = x + 1; 
+            }
+        } 
+
+        // Down Arrow Key adds to y
+        if (key = 133) {
+            if (~(y = 32)) {
+                let y = y + 1; 
+            }     
+        }
+
+        return;
+    }
+
+    // Changes draw Based on Key Input
+    method void toggleDraw(int key) {
+
+        // 'b' Turns on Draw
+        if (key = 98) {
+            let draw = true;
+        }
+
+        // 'e' Turns off Draw ~ Erase
+        if (key = 101) {
+            let draw = false;
+        }
+
+        return;
+    }
+
+    // Updates Board Based on Key Input
+    method void select(int key, Board board) {
+
+        // 'space' Sets the (x,y) of the Board to Draw
+        if (key = 32) {
+            do board.set(x,y,draw);
+        }
+
+        return;
+    }
+
+    // Calls Every Key Based Method
+    method void update(int key, Board board) {
+        do move(key);
+        do toggleDraw(key);
+        do select(key, board);
+        return;
+    }
+
+    // Prints the Mouse Object to the Screen
+    method void print() {
+
+        // Changes Mouse Color Every Other Call
+        if (count = 2) {
+            let color = ~color;
+            let count = 0;
+        }
+
+        // Prints to Screen with Mouse Color
+        do Screen.setColor(color);
+        do Screen.drawRectangle(x*8, y*8, x*8+8, y*8+8);
+        
+        let count = count + 1;
+        return;
+    }
+}

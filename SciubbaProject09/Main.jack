@@ -1,0 +1,117 @@
+class Main {
+
+    function void main() {
+
+        // Declares Variables
+        var Board currentBoard, nextBoard;
+        var Cursor mouse;
+        var boolean alive, escape;
+        var int key;
+
+        // Displays Controls for 6 Seconds
+        do Output.printString("Controls");
+        do Output.println();   
+        do Output.printString("Move - 'arrow keys'");
+        do Output.println();
+        do Output.printString("Draw Mode - 'b'");
+        do Output.println();
+        do Output.printString("Erase Mode - 'e'");
+        do Output.println();
+        do Output.printString("Interact - 'space'");
+        do Output.println();
+        do Output.printString("Run - 'return'");
+        do Output.println();
+        do Output.printString("Pause - 'delete'");
+        do Output.println();
+        do Output.printString("End - 'esc'");
+        do Sys.wait(6000);
+
+        // Initializes Variables
+        let currentBoard = Board.new();
+        let nextBoard = Board.new();
+        let mouse = Cursor.new();
+        let escape = false;
+
+        // Repeats Until the 'esc' Key is Pressed
+        while (~escape) {
+
+            // Repeats Until the 'return' Key or 'esc' Key is Pressed
+            while (~(key = 128) & ~(escape)) {
+
+                // Updates the Current Board and Mouse Based on Input
+                let key = Keyboard.keyPressed();
+                if (key = 140) {
+                    let escape = true;
+                }
+                do mouse.update(key, currentBoard);
+                do currentBoard.printBoard(mouse, true);
+            }
+
+            // Repeats Until the 'delete' Key or 'esc' Key is Pressed
+            while (~(key = 129) & ~(escape)) {  
+
+                // Updates the currentBoard to its Next Iteration
+                do Main.nextGeneration(currentBoard, nextBoard);
+                do currentBoard.printBoard(mouse, false);
+                let key = Keyboard.keyPressed();
+                if (key = 140) {
+                    let escape = true;
+                }
+            }
+        }
+
+        return;
+    }
+
+    // Updates the currentBoard to its Next Iteration
+    function void nextGeneration(Board currentBoard, Board nextBoard) {
+
+        // Declares Variables
+        var boolean alive;
+        var int neighbors;
+        var int x,y;
+
+        // Clears nextBoard and Calculates Neighbors of currentBoard
+        do nextBoard.clear();
+        do currentBoard.calcNeighbors();
+
+        // Iterates Through Every x and y of the currentBoard/nextBoard
+        let x = 0;
+        while (x < 64) {
+            let y = 0;
+            while (y < 32) {
+
+                // Determines If Current Cell is Alive and its Number of Neighbors
+                let alive = currentBoard.get(x,y);
+                let neighbors = currentBoard.getNeighbors(x,y);
+
+                // If Cell Has Three Neighbors, it is Alive in the Next Generation
+                if (neighbors = 3) {
+                    do nextBoard.set(x,y,true);
+                }
+
+                // If Cell Has Two Neighbors and is Alive, it is Alive in the Next Generation
+                if (neighbors = 2 & alive){
+                    do nextBoard.set(x,y,true);
+                }
+                
+                let y = y + 1;
+            }
+            let x = x + 1;
+        }
+
+        // Copies Over nextBoard to currentBoard
+        let x = 0;
+        while (x < 64) {
+            let y = 0;
+            while (y < 32) {
+                let alive = nextBoard.get(x,y);
+                do currentBoard.set(x,y,alive);
+                let y = y + 1;
+            }
+            let x = x + 1;
+        }
+
+        return;
+    }
+}

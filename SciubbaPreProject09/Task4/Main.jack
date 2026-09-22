@@ -1,0 +1,40 @@
+class Main {
+    function void main() {
+        // Declares Variables
+        var int x, y; 
+        var int radius; 
+        var int key;
+
+        // Initializes Variables
+        let radius = 25; 
+        let x = 100;
+        let y = 100;
+
+        // Loops Until Escape Key is Pressed 
+        while (~(key=140)) {
+
+            // Changes x and y coordinates depending on arrow keys
+            let key = Keyboard.keyPressed();
+            if (~(key = 0)){
+                if (key = 130) {
+                    let x = x - 1; 
+                } 
+                if (key = 131) {
+                    let y = y - 1; 
+                } 
+                if (key = 132) {
+                    let x = x + 1; 
+                } 
+                if (key = 133) {
+                    let y = y + 1; 
+                }
+                do Screen.clearScreen();
+            }
+            
+            do Screen.drawCircle(x,y,radius);
+        }
+        return;
+    }
+}
+
+ 

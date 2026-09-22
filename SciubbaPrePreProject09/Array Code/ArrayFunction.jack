@@ -1,0 +1,63 @@
+class ArrayFunction {
+    /** Returns the sum of all elements in the Array. */
+    function int sum(Array a, int length) {
+        var int sum, i;
+        let sum = 0;
+        let i = 0;
+        while (i < length) {
+            let sum = sum + a[i];
+            let i = i + 1;
+        }
+        return sum;
+    }
+
+    /** Returns the average of all elements in the Array. */
+    function int average(Array a, int length) {
+        return ArrayFunction.sum(a, length) / length;
+    }
+
+    /** Returns a new Array that is an exact deep copy of the given Array */
+    function Array copy(Array a, int length) {
+        var Array newArray;
+        var int i;
+        let newArray = Array.new(length);
+        let i = 0;
+        while (i < length) {
+            let newArray[i] = a[i];
+            let i = i + 1;
+        }
+        return newArray;
+    }
+
+    /** Returns true/false for whether the given Arrays have identical contents */
+    function boolean equals(Array a, Array b, int lengtha, int lengthb) {
+        var int i;
+        let i = 0;
+        if (~(lengtha = lengthb)) {
+            return false;
+        }
+        while (i < lengtha) {
+            if (~(a[i] = b[i])){
+                return false;
+            }
+            let i = i + 1;
+        }
+        return true;
+    }
+
+    /** Prints all elements in the array in the format [x,y,z] */
+    function void prettyPrint(Array a, int length) {
+        var int i;
+        let i = 0;
+        do Output.printString("|");
+        while (i < length) {
+            do Output.printInt(a[i]);
+            let i = i + 1;
+            if (i < length) {
+                do Output.printString(",");
+            }
+        }
+        do Output.printString("|");
+        return;
+    }
+}

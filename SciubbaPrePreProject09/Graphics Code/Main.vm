@@ -1,0 +1,47 @@
+function Main.main 3
+    push constant 492
+    push constant 236
+    call Moth.new 2
+    pop local 1
+    push constant 20
+    push constant 20
+    call Light.new 2
+    pop local 2
+    push local 1
+    call Moth.draw 1
+    pop temp 0
+    push local 2
+    call Light.draw 1
+    pop temp 0
+label Main_0
+    push local 0
+    push constant 140
+    eq
+    not
+    not
+    if-goto Main_1
+    call Keyboard.keyPressed 0
+    pop local 0
+    push local 1
+    call Moth.erase 1
+    pop temp 0
+    push local 2
+    call Light.draw 1
+    pop temp 0
+    push local 1
+    push local 2
+    call Moth.move 2
+    pop temp 0
+    push local 1
+    call Moth.draw 1
+    pop temp 0
+    goto Main_0
+label Main_1
+    push local 1
+    call Moth.dispose 1
+    pop temp 0
+    push local 2
+    call Light.dispose 1
+    pop temp 0
+    push constant 0
+    return

@@ -1,0 +1,16 @@
+class Main {
+    function void main() {
+        // Declares Variable
+        var String name;
+
+        // Gets User Input
+        let name = Keyboard.readLine("Enter Name: ");
+
+        // Prints to the screen
+        do Output.printString("Hello, ");
+        do Output.printString(name);
+        do Output.printString("!");
+        do Output.println();
+        return;
+    }
+}
