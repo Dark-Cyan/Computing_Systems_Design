@@ -1,0 +1,29 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/3/b/RAM512.hdl
+/**
+ * Memory of 512 16-bit registers.
+ * If load is asserted, the value of the register selected by
+ * address is set to in; Otherwise, the value does not change.
+ * The value of the selected register is emitted by out.
+ */
+CHIP RAM512 {
+    IN in[16], load, address[9];
+    OUT out[16];
+    
+    PARTS:
+    //'Dmux8Way' passes load to correct 'RAM64'
+    DMux8Way(in=load, sel=address[6..8], a=address1, b=address2, c=address3, d=address4, e=address5, f=address6, g=address7, h=address8);
+    //'RAM64' further passes load to correct smaller RAM units until correct address is changed
+    RAM64(in=in, load=address1, address=address[0..5], out=ram641);
+    RAM64(in=in, load=address2, address=address[0..5], out=ram642);
+    RAM64(in=in, load=address3, address=address[0..5], out=ram643);
+    RAM64(in=in, load=address4, address=address[0..5], out=ram644);
+    RAM64(in=in, load=address5, address=address[0..5], out=ram645);
+    RAM64(in=in, load=address6, address=address[0..5], out=ram646);
+    RAM64(in=in, load=address7, address=address[0..5], out=ram647);
+    RAM64(in=in, load=address8, address=address[0..5], out=ram648);
+    //'Mux8Way16' finds final value at address to output it
+    Mux8Way16(a=ram641, b=ram642, c=ram643, d=ram644, e=ram645, f=ram646, g=ram647, h=ram648, sel=address[6..8], out=out);
+}

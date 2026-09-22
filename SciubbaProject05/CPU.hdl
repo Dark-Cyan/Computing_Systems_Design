@@ -1,0 +1,86 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/5/CPU.hdl
+/**
+ * The Hack Central Processing unit (CPU).
+ * Parses the binary code in the instruction input and executes it according to the
+ * Hack machine language specification. In the case of a C-instruction, computes the
+ * function specified by the instruction. If the instruction specifies to read a memory
+ * value, the inM input is expected to contain this value. If the instruction specifies
+ * to write a value to the memory, sets the outM output to this value, sets the addressM
+ * output to the target address, and asserts the writeM output (when writeM = 0, any
+ * value may appear in outM).
+ * If the reset input is 0, computes the address of the next instruction and sets the
+ * pc output to that value. If the reset input is 1, sets pc to 0.
+ * Note: The outM and writeM outputs are combinational: they are affected by the
+ * instruction's execution during the current cycle. The addressM and pc outputs are
+ * clocked: although they are affected by the instruction's execution, they commit to
+ * their new values only in the next cycle.
+ */
+CHIP CPU {
+
+    IN  inM[16],         // M value input  (M = contents of RAM[A])
+        instruction[16], // Instruction for execution
+        reset;           // Signals whether to re-start the current
+                         // program (reset==1) or continue executing
+                         // the current program (reset==0).
+
+    OUT outM[16],        // M value output
+        writeM,          // Write to M? 
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
+
+    PARTS:
+
+    //A-instruction:    0vvv vvvv vvvv vvvv
+    //C-instruction:    1xxa cccc ccdd djjj 
+
+    //Easy Access Variables (Abstraction)
+    Mux16(a=false, b=instruction, sel=instruction[15], 
+        out[0]=cJGT,
+        out[1]=cJEQ,
+        out[2]=cJLT,
+        out[3]=cDestM, out[3]=writeM, 
+        out[4]=cDestD,
+        out[5]=cDestA,
+        out[6]=cNo,
+        out[7]=cF,
+        out[8]=cNy,
+        out[9]=cZy,
+        out[10]=cNx,
+        out[11]=cZx,
+        out[12]=cM,
+        out[15]=cAC);
+
+    // Decide which variables should continue through the code
+    Mux16(a=instruction, b=outALU, sel=cAC, out=inAReg);    // Instruction or Ouput of ALU
+    Mux16(a=outAReg, b=inM, sel=cM, out=yIn);               // A or M
+
+    // If it is an A command or destination includes A, loads new value into the A register
+    Not(in=cAC, out=notAC);
+    Or(a=notAC, b=cDestA, out=loadA);
+    ARegister(in=inAReg, load=loadA, out=outAReg, out[0..14]=addressM);
+
+    // If destination includes D, loads output of ALU into the D register
+    DRegister(in=outALU, load=cDestD, out=xIn);
+    
+    // Performs the calculations according to the c section of the opcode in C-instructions
+    ALU(x=xIn, y=yIn, zx=cZx, nx=cNx, zy=cZy, ny=cNy, f=cF, no=cNo, out=outALU, out=outM, zr=zero, ng=neg);
+
+    // Requirement for JGT
+    Or(a=zero, b=neg, out=orZN);
+    Not(in=orZN, out=norZN);
+
+    // Check if jump flags correspond to ALU outputs
+    And(a=cJEQ, b=zero, out=JEQ);
+    And(a=cJLT, b=neg, out=JLT);
+    And(a=cJGT, b=norZN, out=JGT);
+    Or(a=JEQ, b=JLT, out=JLE);
+    Or(a=JLE, b=JGT, out=jump);
+
+    // If reset = true: reset PC
+    // Else if output of ALU corresponds to jump flags: jump to the A register
+    // Else: increment by 1
+    PC(in=outAReg, load=jump, inc=true, reset=reset, out[0..14]=pc);
+}
